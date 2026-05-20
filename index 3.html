@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ensar &amp; Rana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#faf6f1;font-family:'Jost',sans-serif;font-weight:300;color:#2a2218;min-height:100vh}
+/* lang */
+.lb-wrap{display:flex;justify-content:center;padding:1rem}
+.lb{padding:.4rem 1.2rem;border:1px solid #d4c4b0;background:none;font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;color:#6b5c4a}
+.lb:first-child{border-radius:2px 0 0 2px}
+.lb:last-child{border-radius:0 2px 2px 0;border-left:none}
+.lb.on{background:#2a2218;color:#faf6f1;border-color:#2a2218}
+/* hero */
+.hero{text-align:center;padding:1rem 1rem 2rem}
+.orn{color:#b8965a;font-size:1.1rem;letter-spacing:.5em;display:block;margin-bottom:.5rem}
+.tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;letter-spacing:.2em;color:#6b5c4a;margin-bottom:.3rem}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem,11vw,5.5rem);line-height:1}
+.gn{color:#b8965a;font-style:italic}
+.amp{color:#c4b49a;font-size:.5em;margin:0 .2em}
+.hline{width:80px;height:1px;background:linear-gradient(90deg,transparent,#b8965a,transparent);margin:1.4rem auto 0}
+/* card */
+.card{max-width:480px;margin:0 auto 4rem;padding:0 1rem}
+.cbox{background:#fff;border:1px solid #e8ddd0;border-radius:4px;padding:2rem 1.8rem;box-shadow:0 4px 24px rgba(42,34,24,.07)}
+.msg{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;color:#6b5c4a;font-style:italic;text-align:center;margin-bottom:1.6rem}
+/* pick btn */
+.pick{display:block;width:100%;padding:1.3rem;background:#2a2218;color:#faf6f1;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:.9rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;margin-bottom:.7rem}
+.hint{font-size:.73rem;color:#c4b49a;text-align:center;margin-bottom:1.2rem}
+/* file rows */
+.frow{display:flex;align-items:center;gap:.6rem;padding:.65rem .9rem;background:#faf6f1;border:1px solid #ede3d8;border-radius:3px;margin-bottom:.5rem}
+.frow .fi{font-size:1.2rem;flex-shrink:0}
+.frow .fn{flex:1;min-width:0;font-size:.84rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.frow .fs{font-size:.7rem;color:#6b5c4a}
+.frow .pbar{height:3px;background:#e8ddd0;border-radius:2px;margin-top:3px;overflow:hidden}
+.frow .pfill{height:100%;width:0;background:linear-gradient(90deg,#b8965a,#d4b07a);transition:width .3s}
+.frow .stat{font-size:1rem;flex-shrink:0;width:1.2rem;text-align:center}
+.frow .del{background:none;border:none;cursor:pointer;color:#d4c4b0;font-size:.9rem;flex-shrink:0}
+/* upload btn */
+.go{display:none;width:100%;padding:1rem;background:#b8965a;color:#fff;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:.88rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;margin-top:.4rem}
+.go:disabled{background:#c4b49a;cursor:not-allowed}
+/* success */
+.suc{display:none;text-align:center;padding:.5rem 0 1.5rem}
+.sico{font-size:4rem;display:block;margin-bottom:.8rem}
+.suc h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.2rem;margin-bottom:.7rem}
+.suc p{font-size:.93rem;line-height:1.8;color:#6b5c4a;margin-bottom:1.5rem}
+.morebtn{padding:.75rem 1.6rem;background:#2a2218;color:#faf6f1;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+footer{text-align:center;padding:1.5rem;font-size:.72rem;letter-spacing:.1em;color:#c4b49a;border-top:1px solid #e8ddd0}
+</style>
+</head>
+<body>
+
+<div style="height:5px;background:linear-gradient(90deg,#b8965a,#d4b07a,#b8965a)"></div>
+
+<div class="lb-wrap">
+  <button class="lb on" onclick="setLang('de')">🇩🇪 Deutsch</button>
+  <button class="lb"    onclick="setLang('tr')">🇹🇷 Türkçe</button>
+</div>
+
+<header class="hero">
+  <span class="orn">✦ &nbsp; ✦ &nbsp; ✦</span>
+  <p class="tag" id="J_tag">Wir heiraten</p>
+  <h1><span class="gn">Ensar</span><span class="amp">&amp;</span>Rana</h1>
+  <div class="hline"></div>
+</header>
+
+<div class="card">
+  <div class="cbox">
+
+    <div id="J_upl">
+      <p class="msg" id="J_msg">Danke, dass ihr unseren schönsten Tag mit uns geteilt habt! Ladet eure Fotos und Videos hoch, damit wir diesen Tag durch eure Augen erleben dürfen. 💗</p>
+
+      <input type="file" id="J_fi" multiple style="display:none" onchange="onPick(this.files)"/>
+      <button class="pick" onclick="document.getElementById('J_fi').click()" id="J_pickbtn">📷 Fotos &amp; Videos auswählen</button>
+      <p class="hint" id="J_hint">Beliebig viele · Alle Formate · Keine Größenbeschränkung</p>
+
+      <div id="J_list"></div>
+      <button class="go" id="J_go" onclick="startUp()">Hochladen</button>
+    </div>
+
+    <div class="suc" id="J_suc">
+      <span class="sico">💐</span>
+      <h2 id="J_st">Herzlichen Dank!</h2>
+      <p id="J_sm">Eure Erinnerungen sind sicher angekommen. Wir können es kaum erwarten, alles anzusehen!</p>
+      <button class="morebtn" onclick="doReset()" id="J_more">Weitere Fotos hochladen</button>
+    </div>
+
+  </div>
+</div>
+
+<footer>✦ &nbsp; Ensar &amp; Rana &nbsp; ✦</footer>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVnjnaTIMkt42BamoPaxo4AJAPs2AJj95V9SR4eZXaE2Ohu6i6tUEivt4PTW__KWk9/exec";
+var CHUNK_SIZE = 5 * 1024 * 1024; // 5 MB
+// ────────────────────────────────────────────────────────────────────────
+
+var fileList = [];   // {file, idx}
+var nextIdx  = 0;
+var busy     = false;
+var curLang  = 'de';
+
+var TEXT = {
+  de: {
+    tag:     'Wir heiraten',
+    msg:     'Danke, dass ihr unseren schönsten Tag mit uns geteilt habt! Ladet eure Fotos und Videos hoch, damit wir diesen Tag durch eure Augen erleben dürfen. 💗',
+    pick:    '📷 Fotos & Videos auswählen',
+    hint:    'Beliebig viele · Alle Formate · Keine Größenbeschränkung',
+    go:      function(n){ return 'Hochladen (' + n + (n===1?' Datei':' Dateien') + ')'; },
+    wait:    'Bitte warten…',
+    st:      'Herzlichen Dank! 💐',
+    sm:      'Eure Erinnerungen sind sicher angekommen. Wir können es kaum erwarten, alles anzusehen!',
+    more:    'Weitere Fotos hochladen',
+    err:     'Fehler. Bitte erneut versuchen.'
+  },
+  tr: {
+    tag:     'Evleniyoruz',
+    msg:     'Bu özel günümüzü bizimle paylaştığınız için çok teşekkür ederiz! Fotoğraf ve videolarınızı yükleyin, bu günü sizin gözünüzden de görmek isteriz. 💗',
+    pick:    '📷 Fotoğraf & Video Seç',
+    hint:    'Sınırsız dosya · Tüm formatlar · Boyut sınırı yok',
+    go:      function(n){ return 'Yükle (' + n + ' dosya)'; },
+    wait:    'Lütfen bekleyin…',
+    st:      'Çok teşekkürler! 💐',
+    sm:      'Anıların güvenle bize ulaştı. Hepsine bakmak için sabırsızlanıyoruz!',
+    more:    'Daha fazla fotoğraf yükle',
+    err:     'Hata. Lütfen tekrar deneyin.'
+  }
+};
+
+function setLang(l) {
+  curLang = l;
+  var t = TEXT[l];
+  document.getElementById('J_tag').textContent     = t.tag;
+  document.getElementById('J_msg').textContent     = t.msg;
+  document.getElementById('J_pickbtn').textContent = t.pick;
+  document.getElementById('J_hint').textContent    = t.hint;
+  document.getElementById('J_st').textContent      = t.st;
+  document.getElementById('J_sm').textContent      = t.sm;
+  document.getElementById('J_more').textContent    = t.more;
+  var btns = document.querySelectorAll('.lb');
+  btns[0].classList.toggle('on', l === 'de');
+  btns[1].classList.toggle('on', l === 'tr');
+  refreshGoBtn();
+}
+
+// ── File picking ─────────────────────────────────────────────────────────
+function onPick(picked) {
+  Array.from(picked).forEach(function(f) {
+    var idx = nextIdx++;
+    fileList.push({ file: f, idx: idx });
+    renderRow(f, idx);
+  });
+  document.getElementById('J_fi').value = '';
+  refreshGoBtn();
+}
+
+function fmt(bytes) {
+  return bytes < 1048576
+    ? Math.round(bytes / 1024) + ' KB'
+    : (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+function renderRow(f, idx) {
+  var isVid = f.type.startsWith('video');
+  var row   = document.createElement('div');
+  row.className = 'frow';
+  row.id        = 'row_' + idx;
+  row.innerHTML =
+    '<span class="fi">' + (isVid ? '🎬' : '📸') + '</span>'
+  + '<div style="flex:1;min-width:0">'
+  +   '<div class="fn">' + escHtml(f.name) + '</div>'
+  +   '<div class="fs">' + fmt(f.size) + '</div>'
+  +   '<div class="pbar" id="pbar_' + idx + '" style="display:none"><div class="pfill" id="pfill_' + idx + '"></div></div>'
+  +   '<div id="perr_' + idx + '" style="font-size:.7rem;color:#c0392b;margin-top:2px;display:none"></div>'
+  + '</div>'
+  + '<span class="stat" id="stat_' + idx + '"></span>'
+  + '<button class="del" onclick="removeRow(' + idx + ')">✕</button>';
+  document.getElementById('J_list').appendChild(row);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function removeRow(idx) {
+  fileList = fileList.filter(function(e){ return e.idx !== idx; });
+  var el = document.getElementById('row_' + idx);
+  if (el) el.remove();
+  refreshGoBtn();
+}
+
+function refreshGoBtn() {
+  var btn = document.getElementById('J_go');
+  if (fileList.length === 0) {
+    btn.style.display = 'none';
+  } else {
+    btn.style.display = 'block';
+    if (!busy) btn.textContent = TEXT[curLang].go(fileList.length);
+  }
+}
+
+// ── Upload ───────────────────────────────────────────────────────────────
+function startUp() {
+  if (busy || fileList.length === 0) return;
+  busy = true;
+  var btn = document.getElementById('J_go');
+  btn.disabled    = true;
+  btn.textContent = TEXT[curLang].wait;
+  // hide delete buttons
+  document.querySelectorAll('.del').forEach(function(b){ b.style.display='none'; });
+  uploadAll(0);
+}
+
+function uploadAll(i) {
+  if (i >= fileList.length) {
+    busy = false;
+    document.getElementById('J_upl').style.display = 'none';
+    document.getElementById('J_suc').style.display = 'block';
+    return;
+  }
+  var entry = fileList[i];
+  uploadOne(entry.file, entry.idx).then(function() { uploadAll(i + 1); });
+}
+
+function uploadOne(file, idx) {
+  var totalChunks = Math.ceil(file.size / CHUNK_SIZE) || 1;
+  var uploadId    = Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+  document.getElementById('stat_' + idx).textContent    = '⏳';
+  document.getElementById('pbar_' + idx).style.display  = 'block';
+  return sendChunk(file, idx, uploadId, 0, totalChunks);
+}
+
+function sendChunk(file, idx, uid, ci, total) {
+  var start = ci * CHUNK_SIZE;
+  var end   = Math.min(start + CHUNK_SIZE, file.size);
+  var pct   = Math.round(ci / total * 90);
+  document.getElementById('pfill_' + idx).style.width = pct + '%';
+
+  return new Promise(function(resolve) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var b64 = e.target.result.split(',')[1];
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode:   'no-cors',
+        body:   JSON.stringify({
+          action:      'chunk',
+          uploadId:    uid,
+          fileName:    file.name,
+          mimeType:    file.type || 'application/octet-stream',
+          chunkIndex:  ci,
+          totalChunks: total,
+          isLast:      ci === total - 1,
+          data:        b64
+        })
+      })
+      .then(function() {
+        if (ci < total - 1) {
+          resolve(sendChunk(file, idx, uid, ci + 1, total));
+        } else {
+          document.getElementById('pfill_' + idx).style.width = '100%';
+          document.getElementById('stat_'  + idx).textContent = '✅';
+          resolve();
+        }
+      })
+      .catch(function() {
+        document.getElementById('stat_' + idx).textContent       = '❌';
+        document.getElementById('perr_' + idx).textContent       = TEXT[curLang].err;
+        document.getElementById('perr_' + idx).style.display     = 'block';
+        resolve();
+      });
+    };
+    reader.onerror = function() {
+      document.getElementById('stat_' + idx).textContent = '❌';
+      resolve();
+    };
+    reader.readAsDataURL(file.slice(start, end));
+  });
+}
+
+// ── Reset ────────────────────────────────────────────────────────────────
+function doReset() {
+  fileList = [];
+  nextIdx  = 0;
+  busy     = false;
+  document.getElementById('J_list').innerHTML        = '';
+  document.getElementById('J_fi').value              = '';
+  document.getElementById('J_suc').style.display     = 'none';
+  document.getElementById('J_upl').style.display     = 'block';
+  document.getElementById('J_go').disabled           = false;
+  refreshGoBtn();
+}
+
+// init
+setLang('de');
+</script>
+</body>
+</html>
