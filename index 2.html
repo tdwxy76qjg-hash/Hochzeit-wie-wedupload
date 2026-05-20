@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Ensar &amp; Rana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#faf6f1;font-family:'Jost',sans-serif;font-weight:300;min-height:100vh;color:#2a2218}
+
+/* Lang */
+.lang{display:flex;justify-content:center;gap:0;padding:1rem}
+.lb{padding:.4rem 1.2rem;border:1px solid #d4c4b0;background:transparent;font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;color:#6b5c4a;transition:all .2s}
+.lb:first-child{border-radius:2px 0 0 2px}
+.lb:last-child{border-radius:0 2px 2px 0;border-left:none}
+.lb.on{background:#2a2218;color:#faf6f1;border-color:#2a2218}
+
+/* Hero */
+.hero{text-align:center;padding:1.2rem 1rem 2rem}
+.orn{color:#b8965a;font-size:1.1rem;letter-spacing:.5em;display:block;margin-bottom:.5rem}
+.tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;letter-spacing:.2em;color:#6b5c4a;margin-bottom:.3rem}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(3rem,12vw,5.5rem);line-height:1;color:#2a2218}
+.g{color:#b8965a;font-style:italic}
+.amp{color:#c4b49a;font-size:.5em;margin:0 .2em}
+.line{width:80px;height:1px;background:linear-gradient(90deg,transparent,#b8965a,transparent);margin:1.4rem auto 0}
+
+/* Card */
+.wrap{max-width:500px;margin:0 auto;padding:0 1.2rem 4rem}
+.box{background:#fff;border:1px solid #e8ddd0;border-radius:4px;padding:2rem 1.8rem;box-shadow:0 4px 30px rgba(42,34,24,.07)}
+.intro{font-family:'Cormorant Garamond',serif;font-size:1.15rem;line-height:1.8;color:#6b5c4a;font-style:italic;margin-bottom:1.6rem;text-align:center}
+
+/* Upload Button – big, easy to tap */
+.pick-btn{
+  display:block;width:100%;padding:1.4rem 1rem;
+  background:#2a2218;color:#faf6f1;
+  border:none;border-radius:4px;
+  font-family:'Jost',sans-serif;font-size:.95rem;letter-spacing:.15em;text-transform:uppercase;
+  cursor:pointer;text-align:center;transition:background .2s;
+  margin-bottom:.8rem;
+}
+.pick-btn:active{background:#3d3020}
+.pick-hint{font-size:.75rem;color:#c4b49a;text-align:center;margin-bottom:1.4rem}
+
+/* File list */
+.flist{margin-bottom:1rem}
+.frow{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.7rem .9rem;background:#faf6f1;
+  border:1px solid #ede3d8;border-radius:3px;
+  margin-bottom:.5rem;animation:pop .25s ease
+}
+.frow .ico{font-size:1.3rem;flex-shrink:0}
+.frow .info{flex:1;min-width:0}
+.frow .name{font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#2a2218}
+.frow .size{font-size:.71rem;color:#6b5c4a;margin-top:1px}
+.frow .bar-wrap{height:3px;background:#e8ddd0;border-radius:2px;margin-top:4px;overflow:hidden;display:none}
+.frow .bar{height:100%;width:0;background:linear-gradient(90deg,#b8965a,#d4b07a);transition:width .3s}
+.frow .errt{font-size:.71rem;color:#c0392b;margin-top:3px;display:none}
+.frow .st{font-size:1rem;flex-shrink:0;width:1.3rem;text-align:center}
+.del{background:none;border:none;cursor:pointer;color:#d4c4b0;font-size:.95rem;flex-shrink:0;padding:.1rem .2rem}
+
+/* Upload submit */
+.go-btn{
+  display:none;width:100%;padding:1.1rem;
+  background:#b8965a;color:#fff;
+  border:none;border-radius:4px;
+  font-family:'Jost',sans-serif;font-size:.9rem;letter-spacing:.15em;text-transform:uppercase;
+  cursor:pointer;transition:background .2s;margin-top:.5rem
+}
+.go-btn:active{background:#a07848}
+.go-btn:disabled{background:#c4b49a;cursor:not-allowed}
+
+/* Success */
+#suc{display:none;text-align:center;padding:.5rem 0 2rem;animation:pop .5s ease}
+.sico{font-size:4.5rem;display:block;margin-bottom:1rem;animation:float 3s ease infinite}
+#suc h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.4rem;color:#2a2218;margin-bottom:.8rem}
+#suc p{font-size:.95rem;line-height:1.8;color:#6b5c4a;margin-bottom:1.8rem}
+.more-btn{padding:.8rem 1.8rem;background:#2a2218;color:#faf6f1;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+
+footer{text-align:center;padding:1.5rem;font-size:.72rem;letter-spacing:.12em;color:#c4b49a;border-top:1px solid #e8ddd0}
+
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+</style>
+</head>
+<body>
+
+<script>
+var UPLOAD_URL = "https://script.google.com/macros/s/AKfycbxVnjnaTIMkt42BamoPaxo4AJAPs2AJj95V9SR4eZXaE2Ohu6i6tUEivt4PTW__KWk9/exec";
+var CHUNK = 5 * 1024 * 1024;
+</script>
+
+<div style="height:5px;background:linear-gradient(90deg,#b8965a,#d4b07a,#b8965a)"></div>
+
+<div class="lang">
+  <button class="lb on" id="bde" onclick="L('de')">&#127465;&#127466; Deutsch</button>
+  <button class="lb"    id="btr" onclick="L('tr')">&#127481;&#127479; T&uuml;rk&ccedil;e</button>
+</div>
+
+<header class="hero">
+  <span class="orn">&#10022; &nbsp; &#10022; &nbsp; &#10022;</span>
+  <p class="tag" id="tag">Wir heiraten</p>
+  <h1><span class="g">Ensar</span><span class="amp">&amp;</span>Rana</h1>
+  <div class="line"></div>
+</header>
+
+<div class="wrap">
+  <div class="box">
+
+    <div id="upl">
+      <p class="intro" id="intro">Danke, dass ihr unseren sch&ouml;nsten Tag mit uns geteilt habt! Ladet eure Fotos &amp; Videos hoch, damit wir diesen Tag durch eure Augen erleben d&uuml;rfen. &#128149;</p>
+
+      <!-- Hidden file inputs – no accept restriction for max compatibility -->
+      <input type="file" id="fi" multiple style="display:none" onchange="addFiles(this.files)"/>
+
+      <button class="pick-btn" id="pick-btn" onclick="document.getElementById('fi').click()">
+        &#128247; &nbsp; <span id="pick-lbl">Fotos &amp; Videos ausw&auml;hlen</span>
+      </button>
+      <p class="pick-hint" id="pick-hint">Beliebig viele &#183; Alle Formate &#183; Keine Gr&ouml;&szlig;enbeschr&auml;nkung</p>
+
+      <div class="flist" id="flist"></div>
+
+      <button class="go-btn" id="go-btn" onclick="startUpload()">
+        <span id="go-lbl">Jetzt hochladen</span>
+      </button>
+    </div>
+
+    <div id="suc">
+      <span class="sico">&#128144;</span>
+      <h2 id="st">Herzlichen Dank!</h2>
+      <p id="sm">Eure Erinnerungen sind sicher angekommen. Wir k&ouml;nnen es kaum erwarten, alles anzusehen!</p>
+      <button class="more-btn" onclick="resetAll()" id="more-btn">Weitere Fotos hochladen</button>
+    </div>
+
+  </div>
+</div>
+
+<footer>&#10022; &nbsp; Ensar &amp; Rana &nbsp; &#10022;</footer>
+
+<script>
+var files = [], busy = false, lang = 'de';
+
+var TX = {
+  de:{
+    tag:"Wir heiraten",
+    intro:"Danke, dass ihr unseren sch&ouml;nsten Tag mit uns geteilt habt! Ladet eure Fotos &amp; Videos hoch, damit wir diesen Tag durch eure Augen erleben d&uuml;rfen. &#128149;",
+    pickLbl:"Fotos &amp; Videos ausw&auml;hlen",
+    pickHint:"Beliebig viele &middot; Alle Formate &middot; Keine Gr&ouml;&szlig;enbeschr&auml;nkung",
+    goLbl:function(n){return "Hochladen ("+n+(n===1?" Datei":" Dateien")+")" },
+    goLoading:"Bitte warten&hellip;",
+    st:"Herzlichen Dank! &#128144;",
+    sm:"Eure Erinnerungen sind sicher angekommen. Wir k&ouml;nnen es kaum erwarten, alles anzusehen!",
+    moreLbl:"Weitere Fotos hochladen",
+    err:"Fehler. Bitte erneut versuchen."
+  },
+  tr:{
+    tag:"Evleniyoruz",
+    intro:"Bu &ouml;zel g&uuml;n&uuml;m&uuml;z&uuml; bizimle paylaşt&ığ&ınız i&ccedil;in &ccedil;ok teşekk&uuml;r ederiz! L&uuml;tfen foto&gbreve;raf ve videolarınızı y&uuml;kleyin, bu &uuml;nlu g&uuml;n&uuml; sizin g&ouml;z&uuml;n&uuml;zden de g&ouml;rmek isteriz. &#128149;",
+    pickLbl:"Foto&gbreve;raf &amp; Video Se&ccedil;",
+    pickHint:"Sınırsız dosya &middot; T&uuml;m formatlar &middot; Boyut sınırı yok",
+    goLbl:function(n){return "Y&uuml;kle ("+n+" dosya)"},
+    goLoading:"L&uuml;tfen bekleyin&hellip;",
+    st:"&Ccedil;ok teşekk&uuml;rler! &#128144;",
+    sm:"Anıların g&uuml;venle bize ulaştı. Hepsine bakmak i&ccedil;in sabırsızlanıyoruz!",
+    moreLbl:"Daha fazla foto&gbreve;raf y&uuml;kle",
+    err:"Hata. L&uuml;tfen tekrar deneyin."
+  }
+};
+
+function L(l){
+  lang = l;
+  var t = TX[l];
+  document.getElementById('tag').textContent = t.tag;
+  document.getElementById('intro').innerHTML = t.intro;
+  document.getElementById('pick-lbl').innerHTML = t.pickLbl;
+  document.getElementById('pick-hint').innerHTML = t.pickHint;
+  document.getElementById('st').innerHTML = t.st;
+  document.getElementById('sm').innerHTML = t.sm;
+  document.getElementById('more-btn').innerHTML = t.moreLbl;
+  document.getElementById('bde').classList.toggle('on', l==='de');
+  document.getElementById('btr').classList.toggle('on', l==='tr');
+  updGo();
+}
+
+function fk(f){ return f.name+'-'+f.size; }
+
+function addFiles(list){
+  Array.from(list).forEach(function(f){
+    if(files.find(function(x){return fk(x)===fk(f);})) return;
+    files.push(f);
+    renderRow(f);
+  });
+  // Reset input so same files can be picked again
+  document.getElementById('fi').value = '';
+  updGo();
+}
+
+function renderRow(f){
+  var k = fk(f);
+  var isV = f.type.startsWith('video');
+  var sz = f.size < 1048576 ? Math.round(f.size/1024)+' KB' : (f.size/1048576).toFixed(1)+' MB';
+  var d = document.createElement('div');
+  d.className='frow'; d.id='r-'+k;
+  d.innerHTML=
+    '<span class="ico">'+(isV?'&#127916;':'&#128248;')+'</span>'
+    +'<div class="info">'
+      +'<div class="name">'+f.name+'</div>'
+      +'<div class="size">'+sz+'</div>'
+      +'<div class="bar-wrap" id="bw-'+k+'"><div class="bar" id="b-'+k+'"></div></div>'
+      +'<div class="errt" id="e-'+k+'"></div>'
+    +'</div>'
+    +'<span class="st" id="s-'+k+'"></span>'
+    +'<button class="del" onclick="delRow(\''+k+'\')" id="del-'+k+'">&#10005;</button>';
+  document.getElementById('flist').appendChild(d);
+}
+
+function delRow(k){
+  files=files.filter(function(f){return fk(f)!==k;});
+  var el=document.getElementById('r-'+k); if(el) el.remove();
+  updGo();
+}
+
+function updGo(){
+  var btn = document.getElementById('go-btn');
+  btn.style.display = files.length ? 'block' : 'none';
+  if(!busy) btn.innerHTML = TX[lang].goLbl(files.length);
+}
+
+// ── Chunked upload ──────────────────────────────────────────────────────
+function startUpload(){
+  if(busy||!files.length) return;
+  busy=true;
+  var gb=document.getElementById('go-btn');
+  gb.disabled=true; gb.innerHTML=TX[lang].goLoading;
+  // Hide delete buttons
+  files.forEach(function(f){ var d=document.getElementById('del-'+fk(f)); if(d)d.style.display='none'; });
+  nextFile(0);
+}
+
+function nextFile(i){
+  if(i>=files.length){
+    busy=false;
+    document.getElementById('upl').style.display='none';
+    document.getElementById('suc').style.display='block';
+    return;
+  }
+  uploadChunked(files[i]).then(function(){ nextFile(i+1); });
+}
+
+function uploadChunked(file){
+  var k=fk(file);
+  var total=Math.ceil(file.size/CHUNK)||1;
+  var uid=Date.now().toString(36)+Math.random().toString(36).substr(2,5);
+  document.getElementById('s-'+k).innerHTML='&#9203;';
+  document.getElementById('bw-'+k).style.display='block';
+  return doChunk(file,k,uid,0,total);
+}
+
+function doChunk(file,k,uid,idx,total){
+  var start=idx*CHUNK, end=Math.min(start+CHUNK,file.size);
+  document.getElementById('b-'+k).style.width=Math.round(idx/total*90)+'%';
+  return new Promise(function(resolve){
+    var r=new FileReader();
+    r.onload=function(e){
+      var b64=e.target.result.split(',')[1];
+      fetch(UPLOAD_URL,{
+        method:'POST',mode:'no-cors',
+        body:JSON.stringify({action:'chunk',uploadId:uid,fileName:file.name,
+          mimeType:file.type||'application/octet-stream',
+          chunkIndex:idx,totalChunks:total,isLast:idx===total-1,data:b64})
+      }).then(function(){
+        if(idx<total-1){ resolve(doChunk(file,k,uid,idx+1,total)); }
+        else{
+          document.getElementById('b-'+k).style.width='100%';
+          document.getElementById('s-'+k).innerHTML='&#9989;';
+          resolve();
+        }
+      }).catch(function(){
+        document.getElementById('s-'+k).innerHTML='&#10060;';
+        document.getElementById('e-'+k).innerHTML=TX[lang].err;
+        document.getElementById('e-'+k).style.display='block';
+        resolve();
+      });
+    };
+    r.onerror=function(){ document.getElementById('s-'+k).innerHTML='&#10060;'; resolve(); };
+    r.readAsDataURL(file.slice(start,end));
+  });
+}
+
+function resetAll(){
+  files=[]; busy=false;
+  document.getElementById('flist').innerHTML='';
+  document.getElementById('fi').value='';
+  document.getElementById('suc').style.display='none';
+  document.getElementById('upl').style.display='block';
+  var gb=document.getElementById('go-btn');
+  gb.disabled=false;
+  updGo();
+}
+
+L('de');
+</script>
+</body>
+</html>
