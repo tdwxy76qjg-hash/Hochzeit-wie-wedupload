@@ -47,7 +47,15 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem
 .suc h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.2rem;margin-bottom:.7rem}
 .suc p{font-size:.93rem;line-height:1.8;color:#6b5c4a;margin-bottom:1.5rem}
 .morebtn{padding:.75rem 1.6rem;background:#2a2218;color:#faf6f1;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
-footer{text-align:center;padding:1.5rem;font-size:.72rem;letter-spacing:.1em;color:#c4b49a;border-top:1px solid #e8ddd0}
+footer{text-align:center;padding:1.5rem;font-size:.72rem;letter-spacing:.1em;color:#c4b49a;border-top:1px solid #e8ddd0;margin-bottom:0}
+.faq{border:1px solid #e8ddd0;border-radius:4px;margin-bottom:.7rem;background:#fff;overflow:hidden}
+.faq-q{width:100%;padding:1rem 1.1rem;background:none;border:none;font-family:'Jost',sans-serif;font-size:.88rem;font-weight:400;color:#2a2218;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.5rem;transition:background .15s}
+.faq-q:active{background:#faf6f1}
+.faq-q .arr{color:#b8965a;font-size:1rem;flex-shrink:0;transition:transform .25s}
+.faq-q.open{background:#fdf9f4}
+.faq-q.open .arr{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .25s ease;padding:0 1.1rem;font-size:.83rem;line-height:1.75;color:#6b5c4a}
+.faq-a.show{max-height:400px;padding:.2rem 1.1rem 1rem}
 </style>
 </head>
 <body>
@@ -90,7 +98,34 @@ footer{text-align:center;padding:1.5rem;font-size:.72rem;letter-spacing:.1em;col
   </div>
 </div>
 
+<!-- FAQ -->
+<div style="max-width:480px;margin:0 auto 2rem;padding:0 1rem">
+  <div style="text-align:center;margin-bottom:1.2rem;margin-top:.5rem">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;color:#b8965a" id="F_title">Braucht ihr Hilfe? 🆘</p>
+    <p style="font-size:.78rem;color:#c4b49a;letter-spacing:.1em;margin-top:.3rem" id="F_sub">Ensar &amp; Rana helfen euch gerne – auch wenn sie grad feiern 🥂</p>
+  </div>
+  <div id="F_items"></div>
+</div>
+
 <footer>✦ &nbsp; Ensar &amp; Rana &nbsp; ✦</footer>
+
+<!-- Contact – ganz unten -->
+<div style="max-width:480px;margin:0 auto 2.5rem;padding:1.5rem 1rem 0">
+  <div style="background:#fff;border:1px solid #e8ddd0;border-radius:4px;padding:1.8rem;text-align:center;box-shadow:0 4px 24px rgba(42,34,24,.05)">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;color:#b8965a;margin-bottom:.3rem" id="C_title">Klappt gar nichts? 😅</p>
+    <p style="font-size:.8rem;color:#6b5c4a;line-height:1.7;margin-bottom:1.3rem" id="C_sub">Schreibt Ensar oder Rana direkt an – aber erst nach dem Hochladen! 😄</p>
+    <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+      <a href="https://wa.me/436604400517" target="_blank"
+        style="display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.4rem;background:#25D366;color:#fff;border-radius:4px;font-family:'Jost',sans-serif;font-size:.82rem;letter-spacing:.1em;text-decoration:none;font-weight:400">
+        💬 Ensar
+      </a>
+      <a href="https://wa.me/436502523102" target="_blank"
+        style="display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.4rem;background:#25D366;color:#fff;border-radius:4px;font-family:'Jost',sans-serif;font-size:.82rem;letter-spacing:.1em;text-decoration:none;font-weight:400">
+        💬 Rana
+      </a>
+    </div>
+  </div>
+</div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────────────────────
@@ -114,7 +149,9 @@ var TEXT = {
     st:      'Herzlichen Dank! 💐',
     sm:      'Eure Erinnerungen sind sicher angekommen. Wir können es kaum erwarten, alles anzusehen!',
     more:    'Weitere Fotos hochladen',
-    err:     'Fehler. Bitte erneut versuchen.'
+    err:     'Fehler. Bitte erneut versuchen.',
+    ctitle:  'Klappt gar nichts? 😅',
+    csub:    'Schreibt Ensar oder Rana direkt an – aber erst nach dem Hochladen! 😄'
   },
   tr: {
     tag:     'Evleniyoruz',
@@ -126,7 +163,9 @@ var TEXT = {
     st:      'Çok teşekkürler! 💐',
     sm:      'Anıların güvenle bize ulaştı. Hepsine bakmak için sabırsızlanıyoruz!',
     more:    'Daha fazla fotoğraf yükle',
-    err:     'Hata. Lütfen tekrar deneyin.'
+    err:     'Hata. Lütfen tekrar deneyin.',
+    ctitle:  'Hiç olmadı mı? 😅',
+    csub:    'Ensar veya Rana\'ya doğrudan yazın – ama önce yüklemeyi deneyin! 😄'
   }
 };
 
@@ -140,10 +179,13 @@ function setLang(l) {
   document.getElementById('J_st').textContent      = t.st;
   document.getElementById('J_sm').textContent      = t.sm;
   document.getElementById('J_more').textContent    = t.more;
+  document.getElementById('C_title').textContent   = t.ctitle;
+  document.getElementById('C_sub').textContent     = t.csub;
   var btns = document.querySelectorAll('.lb');
   btns[0].classList.toggle('on', l === 'de');
   btns[1].classList.toggle('on', l === 'tr');
   refreshGoBtn();
+  buildFaq(l);
 }
 
 // ── File picking ─────────────────────────────────────────────────────────
@@ -292,6 +334,95 @@ function doReset() {
   document.getElementById('J_upl').style.display     = 'block';
   document.getElementById('J_go').disabled           = false;
   refreshGoBtn();
+}
+
+// ── FAQ ──────────────────────────────────────────────────────────────────
+var FAQS = {
+  de: {
+    title: 'Braucht ihr Hilfe? 🆘',
+    sub:   'Ensar & Rana helfen euch, auch wenn sie grad tanzen 🕺💃',
+    items: [
+      {
+        q: '📵 Seite NICHT schließen – bitte!',
+        a: 'Wir wissen, ihr wollt feiern – aber bitte lasst die Seite offen bis alle Fotos hochgeladen sind! Sobald ihr das grüne ✅ seht, könnt ihr die Seite schließen. Versprochen, es dauert nicht lange. Ensar & Rana schauen euch zu. 👀'
+      },
+      {
+        q: '📸 Wie wähle ich mehrere Fotos aus? (iPhone)',
+        a: 'Tippt auf den großen Button → „Fotomediathek" auswählen → oben rechts auf „Auswählen" tippen → jetzt könnt ihr beliebig viele Fotos antippen → dann auf „Hinzufügen" drücken. Fertig! Klappt nicht? Einfach mehrmals auf den Button tippen und jedes Mal ein paar Fotos hochladen – Ensar sammelt alles! 📦'
+      },
+      {
+        q: '📸 Wie wähle ich mehrere Fotos aus? (Android)',
+        a: 'Tippt auf den Button → in der Galerie das erste Foto gedrückt halten (1-2 Sekunden) → dann weitere antippen → auf „Fertig" oder „Hinzufügen" tippen. Geht nicht auf einmal? Kein Problem – einfach mehrmals hochladen, Rana freut sich über jedes einzelne Foto! 😊'
+      },
+      {
+        q: '🎬 Videos hochladen?',
+        a: 'Ja! Videos funktionieren genauso wie Fotos. Einfach beim Auswählen auch Videos antippen. Große Videos dauern etwas länger – Handy nicht sperren und warten. Ensar & Rana freuen sich riesig auf eure Clips! 🎉'
+      },
+      {
+        q: '🐌 Es dauert so lange...',
+        a: 'Videos und viele Fotos brauchen etwas Zeit – besonders wenn viele Gäste gleichzeitig hochladen. Einfach Handy nicht sperren und warten bis alle ✅ grün sind. Rana sagt: Geduld wird belohnt! Ensar sagt: Danke! 💪'
+      },
+      {
+        q: '❌ Es hat nicht geklappt – was tun?',
+        a: 'Kein Stress! Einfach nochmal versuchen – auf „Weitere Fotos hochladen" tippen. Oder die Seite neu laden. Falls gar nichts klappt: Ensar oder Rana persönlich ansprechen – die Buttons sind weiter unten! 😄'
+      }
+    ]
+  },
+  tr: {
+    title: 'Yardıma mı ihtiyacınız var? 🆘',
+    sub:   'Ensar & Rana size yardımcı olur, şuanda dans etseler de 💃🕺',
+    items: [
+      {
+        q: '📵 Sayfayı KAPATMAYIN – lütfen!',
+        a: 'Eğlenmek istediğinizi biliyoruz ama tüm fotoğraflar yüklenene kadar sayfayı açık tutun! Yeşil ✅ görününce kapatabilirsiniz. Söz, uzun sürmez. Ensar & Rana sizi izliyor. 👀'
+      },
+      {
+        q: '📸 Birden fazla fotoğraf nasıl seçilir? (iPhone)',
+        a: 'Büyük butona dokunun → "Fotoğraf Kitaplığı" seçin → sağ üstte "Seç"e dokunun → istediğiniz kadar fotoğrafa dokunun → "Ekle"ye basın. Olmazsa birkaç kez tekrarlayın – Ensar hepsini topluyor! 📦'
+      },
+      {
+        q: '📸 Birden fazla fotoğraf nasıl seçilir? (Android)',
+        a: 'Butona dokunun → galeride ilk fotoğrafa 1-2 saniye basılı tutun → diğerlerine dokunun → "Tamam" veya "Ekle"ye basın. Tek seferde olmadıysa birkaç kez yükleyin – Rana her fotoğrafa seviniyor! 😊'
+      },
+      {
+        q: '🎬 Video yüklenebilir mi?',
+        a: 'Evet! Videolar da fotoğraflar gibi çalışır. Seçerken videolara da dokunun. Büyük videolar biraz uzun sürebilir – sayfayı açık tutun. Ensar & Rana videolarınızı çok merak ediyor! 🎉'
+      },
+      {
+        q: '🐌 Çok uzun sürüyor...',
+        a: 'Videolar ve çok sayıda fotoğraf zaman alabilir. Telefonu kilitlemeyin ve tüm ✅ yeşil olana kadar bekleyin. Rana diyor ki: Sabır! Ensar diyor ki: Teşekkürler! 💪'
+      },
+      {
+        q: '❌ Olmadı – ne yapayım?',
+        a: 'Sorun değil! "Daha fazla fotoğraf yükle"ye dokunun ve tekrar deneyin. Hiç olmadıysa aşağıdaki butonlardan Ensar veya Rana\'ya doğrudan yazın! 😄'
+      }
+    ]
+  }
+};
+
+function buildFaq(l) {
+  var data = FAQS[l];
+  document.getElementById('F_title').innerHTML = data.title;
+  document.getElementById('F_sub').innerHTML   = data.sub;
+  var box = document.getElementById('F_items');
+  box.innerHTML = data.items.map(function(item, i) {
+    return '<div class="faq">'
+      + '<button class="faq-q" onclick="toggleFaq(' + i + ',this)">'
+      + '<span>' + item.q + '</span>'
+      + '<span class="arr">▼</span>'
+      + '</button>'
+      + '<div class="faq-a" id="fa' + i + '">' + item.a + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function toggleFaq(i, btn) {
+  var a = document.getElementById('fa' + i);
+  var open = a.classList.contains('show');
+  // close all
+  document.querySelectorAll('.faq-a').forEach(function(el){ el.classList.remove('show'); });
+  document.querySelectorAll('.faq-q').forEach(function(el){ el.classList.remove('open'); });
+  if (!open) { a.classList.add('show'); btn.classList.add('open'); }
 }
 
 // init
