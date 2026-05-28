@@ -26,6 +26,12 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem
 .card{max-width:480px;margin:0 auto 4rem;padding:0 1rem}
 .cbox{background:#fff;border:1px solid #e8ddd0;border-radius:4px;padding:2rem 1.8rem;box-shadow:0 4px 24px rgba(42,34,24,.07)}
 .msg{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;color:#6b5c4a;font-style:italic;text-align:center;margin-bottom:1.6rem}
+/* name input */
+.name-wrap{margin-bottom:1.2rem}
+.name-lbl{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#b8965a;display:block;margin-bottom:.4rem}
+.name-inp{width:100%;padding:.8rem 1rem;border:1px solid #d4c4b0;border-radius:3px;font-family:'Jost',sans-serif;font-size:.9rem;color:#2a2218;background:#faf6f1;outline:none;transition:border-color .2s}
+.name-inp:focus{border-color:#b8965a}
+.name-err{font-size:.73rem;color:#c0392b;margin-top:.3rem;display:none}
 /* pick btn */
 .pick{display:block;width:100%;padding:1.3rem;background:#2a2218;color:#faf6f1;border:none;border-radius:4px;font-family:'Jost',sans-serif;font-size:.9rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;margin-bottom:.7rem}
 .hint{font-size:.73rem;color:#c4b49a;text-align:center;margin-bottom:1.2rem}
@@ -79,6 +85,13 @@ footer{text-align:center;padding:1.5rem;font-size:.72rem;letter-spacing:.1em;col
 
     <div id="J_upl">
       <p class="msg" id="J_msg">Danke, dass ihr unseren schönsten Tag mit uns geteilt habt! Ladet eure Fotos und Videos hoch, damit wir diesen Tag durch eure Augen erleben dürfen. 💗</p>
+
+      <!-- Name field -->
+      <div class="name-wrap">
+        <label class="name-lbl" id="J_namelbl">Dein Name</label>
+        <input class="name-inp" id="J_name" type="text" placeholder="z.B. Maria Müller" autocomplete="name"/>
+        <div class="name-err" id="J_nameerr">Bitte trage deinen Namen ein!</div>
+      </div>
 
       <input type="file" id="J_fi" multiple style="display:none" onchange="onPick(this.files)"/>
       <button class="pick" onclick="document.getElementById('J_fi').click()" id="J_pickbtn">📷 Fotos &amp; Videos auswählen</button>
@@ -142,6 +155,9 @@ var TEXT = {
   de: {
     tag:     'Wir heiraten',
     msg:     'Danke, dass ihr unseren schönsten Tag mit uns geteilt habt! Ladet eure Fotos und Videos hoch, damit wir diesen Tag durch eure Augen erleben dürfen. 💗',
+    namelbl: 'Dein Name',
+    nameph:  'z.B. Maria Müller',
+    nameerr: 'Bitte trage deinen Namen ein!',
     pick:    '📷 Fotos & Videos auswählen',
     hint:    'Beliebig viele · Alle Formate · Keine Größenbeschränkung',
     go:      function(n){ return 'Hochladen (' + n + (n===1?' Datei':' Dateien') + ')'; },
@@ -156,6 +172,9 @@ var TEXT = {
   tr: {
     tag:     'Evleniyoruz',
     msg:     'Bu özel günümüzü bizimle paylaştığınız için çok teşekkür ederiz! Fotoğraf ve videolarınızı yükleyin, bu günü sizin gözünüzden de görmek isteriz. 💗',
+    namelbl: 'Adın',
+    nameph:  'örn. Ayşe Yılmaz',
+    nameerr: 'Lütfen adını gir!',
     pick:    '📷 Fotoğraf & Video Seç',
     hint:    'Sınırsız dosya · Tüm formatlar · Boyut sınırı yok',
     go:      function(n){ return 'Yükle (' + n + ' dosya)'; },
@@ -174,6 +193,9 @@ function setLang(l) {
   var t = TEXT[l];
   document.getElementById('J_tag').textContent     = t.tag;
   document.getElementById('J_msg').textContent     = t.msg;
+  document.getElementById('J_namelbl').textContent = t.namelbl;
+  document.getElementById('J_name').placeholder    = t.nameph;
+  document.getElementById('J_nameerr').textContent = t.nameerr;
   document.getElementById('J_pickbtn').textContent = t.pick;
   document.getElementById('J_hint').textContent    = t.hint;
   document.getElementById('J_st').textContent      = t.st;
@@ -247,6 +269,13 @@ function refreshGoBtn() {
 // ── Upload ───────────────────────────────────────────────────────────────
 function startUp() {
   if (busy || fileList.length === 0) return;
+  var name = document.getElementById('J_name').value.trim();
+  if (!name) {
+    document.getElementById('J_nameerr').style.display = 'block';
+    document.getElementById('J_name').focus();
+    return;
+  }
+  document.getElementById('J_nameerr').style.display = 'none';
   busy = true;
   var btn = document.getElementById('J_go');
   btn.disabled    = true;
@@ -293,6 +322,7 @@ function sendChunk(file, idx, uid, ci, total) {
           uploadId:    uid,
           fileName:    file.name,
           mimeType:    file.type || 'application/octet-stream',
+          guestName:   document.getElementById('J_name').value.trim(),
           chunkIndex:  ci,
           totalChunks: total,
           isLast:      ci === total - 1,
@@ -330,6 +360,8 @@ function doReset() {
   busy     = false;
   document.getElementById('J_list').innerHTML        = '';
   document.getElementById('J_fi').value              = '';
+  document.getElementById('J_name').value            = '';
+  document.getElementById('J_nameerr').style.display = 'none';
   document.getElementById('J_suc').style.display     = 'none';
   document.getElementById('J_upl').style.display     = 'block';
   document.getElementById('J_go').disabled           = false;
@@ -340,7 +372,7 @@ function doReset() {
 var FAQS = {
   de: {
     title: 'Braucht ihr Hilfe? 🆘',
-    sub:   'Ensar & Rana helfen euch, auch wenn sie grad tanzen 🕺💃',
+    sub:   'Ensar & Rana helfen euch – auch wenn sie grad tanzen 🕺💃',
     items: [
       {
         q: '📵 Seite NICHT schließen – bitte!',
@@ -370,7 +402,7 @@ var FAQS = {
   },
   tr: {
     title: 'Yardıma mı ihtiyacınız var? 🆘',
-    sub:   'Ensar & Rana size yardımcı olur, şuanda dans etseler de 💃🕺',
+    sub:   'Ensar & Rana size yardımcı olur – fotoğraf ve video paylaştığınız için teşekkürler 🥂',
     items: [
       {
         q: '📵 Sayfayı KAPATMAYIN – lütfen!',
